@@ -6,7 +6,7 @@ import Todo from "./Components/Todo/Todo";
 import NewTodo from "./Components/NewTodo/NewTodo";
 
 // Services
-import { getAllTodos, doTodo, deleteTodo, createTodo } from './Services/todoService'
+import { getAllTodos, doTodo, deleteTodo, createTodo, updateTodo } from './Services/todoService'
 
 // Styles
 import "./tailwind.output.css";
@@ -16,6 +16,7 @@ import "./tailwind.output.css";
 const App = () => {
   let [todos, setTodos] = useState([{}])
   let [newTodo, setNewTodo] = useState('')
+  let [newTitle, setNewTitle] = useState('')
 
   useEffect(() => {
     const getTodoData = async() => {
@@ -45,6 +46,13 @@ const App = () => {
     setTodos(data)
   }
 
+  const handleUpdateTodo = async(todoId) => {
+    await updateTodo(todoId, newTitle)
+    let data = await getAllTodos()
+    setNewTitle('')
+    setTodos(data)
+  }
+
   return (
     <div className="min-h-screen bg-gray-200">
       <div className="w-3/4 mx-auto shadow mt-24 px-4 py-4 rounded border bg-gray-400">
@@ -62,6 +70,9 @@ const App = () => {
                 todo={todo} 
                 doTodo={handleDoTodo} 
                 deleteTodo={handleDeleteTodo}
+                updateTodo={handleUpdateTodo}
+                newTitle={newTitle}
+                setNewTitle={setNewTitle}
               />   
             </div>
           ))

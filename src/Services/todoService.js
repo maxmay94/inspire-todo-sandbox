@@ -45,9 +45,21 @@ export const deleteTodo = async(todoId) => {
   }
 }
 
-export const updateTodo = async() => {
+export const updateTodo = async(todoId, title) => {
+  console.log(todoId, title)
   try {
-
+    const res = await fetch(`${BASE_URL}/${todoId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        title: title,
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+    let data = await res.json()
+    console.log('after -->',data.completed)
+    return data
   } catch(err) {
     throw err
   }
